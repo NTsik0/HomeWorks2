@@ -5,7 +5,8 @@ namespace Homework2Friend
     {
         static void Main(string[] args)
         {
-            Console.BackgroundColor = ConsoleColor.Blue;
+            // change color on newbranch
+            Console.BackgroundColor = ConsoleColor.Green;
 
             Console.ForegroundColor = ConsoleColor.Black;
 
