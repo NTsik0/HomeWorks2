@@ -59,25 +59,25 @@ class Solutions
             return;
         }
 
-        if (list is List<string> stringList)
+        switch (list)
         {
-            foreach (var item in stringList)
-                Console.WriteLine(item.ToUpper());
-        }
-        else if (list is List<int> intList)
-        {
-            Console.WriteLine(intList.Sum());
-        }
-        else if (list is List<bool> boolList)
-        {
-            int middleIndex = boolList.Count / 2;
-            Console.WriteLine($"First Element is {boolList[0]}");
-            Console.WriteLine($"Last Element is {boolList[^1]}");
-            Console.WriteLine($"Middle Element is {boolList[middleIndex]}");
-        }
-        else
-        {
-            Console.WriteLine("უცნობი ტიპი.");
+            case List<string> stringList:
+                stringList.ForEach(item => Console.WriteLine(item.ToUpper()));
+                break;
+
+            case List<int> intList:
+                Console.WriteLine(intList.Sum());
+                break;
+
+            case List<bool> boolList:
+                Console.WriteLine($"First Element is {boolList.First()}");
+                Console.WriteLine($"Last Element is {boolList.Last()}");
+                Console.WriteLine($"Middle Element is {boolList[boolList.Count / 2]}");
+                break;
+
+            default:
+                Console.WriteLine("type not defined correctly");
+                break;
         }
     }
 
@@ -109,35 +109,101 @@ class Solutions
     }
 
     static void Main(string[] args)
+{
+    bool running = true;
+    while (running)
     {
-        Console.WriteLine("1");
-        Console.WriteLine(CountPowersInRange(49, 71, 2));  
-        Console.WriteLine(CountPowersInRange(2, 27, 4));   
+        Console.WriteLine("\n Choose a function");
+        Console.WriteLine("1. CountPowersInRange");
+        Console.WriteLine("2. CountSockPairs");
+        Console.WriteLine("3. LongestCommonSuffix");
+        Console.WriteLine("4. ProcessList");
+        Console.WriteLine("5. PrintDigitsRecursive");
+        Console.WriteLine("6. ContainsDuplicates");
+        Console.WriteLine("0. Exit");
+        Console.Write("Your choice: ");
 
-        Console.WriteLine("\n 2");
-        Console.WriteLine(CountSockPairs("AA"));       // 1
-        Console.WriteLine(CountSockPairs("AABBCC"));   // 3
-        Console.WriteLine(CountSockPairs("AABBC"));    // 2
-        Console.WriteLine(CountSockPairs("ABABC"));    // 2
-        Console.WriteLine(CountSockPairs("AAABB"));    // 2
+        string choice = Console.ReadLine();
 
-        Console.WriteLine("\n 3 ");
-        Console.WriteLine(LongestCommonSuffix("multiplication", "substraction"));     
-        Console.WriteLine(LongestCommonSuffix("Some Random Text", "It is Some Random Text")); 
+        switch (choice)
+        {
+            case "1":
+                Console.Write("Enter a (lower bound): ");
+                int a = int.Parse(Console.ReadLine());
+                Console.Write("Enter b (upper bound): ");
+                int b = int.Parse(Console.ReadLine());
+                Console.Write("Enter n (exponent): ");
+                int n = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Result: {CountPowersInRange(a, b, n)}");
+                break;
 
-        Console.WriteLine("\n 4");
-        ProcessList(new List<int> { 5, 5 });
-        Console.WriteLine();
-        ProcessList(new List<string> { "test", "random", "programming", "word" });
-        Console.WriteLine();
-        ProcessList(new List<bool> { true, false, true, false, true, false, false });
+            case "2":
+                Console.Write("Enter socks string (e.g. AABBCC): ");
+                string socks = Console.ReadLine();
+                Console.WriteLine($"Pairs: {CountSockPairs(socks)}");
+                break;
 
-        Console.WriteLine("\n 5");
-        PrintDigitsRecursive(12345);
-        Console.WriteLine();
+            case "3":
+                Console.Write("Enter first string: ");
+                string s1 = Console.ReadLine();
+                Console.Write("Enter second string: ");
+                string s2 = Console.ReadLine();
+                Console.WriteLine($"Longest Common Suffix: \"{LongestCommonSuffix(s1, s2)}\"");
+                break;
 
-        Console.WriteLine("\n 6");
-        Console.WriteLine(ContainsDuplicates(new int[] { 1, 2, 3, 1 }));  // True
-        Console.WriteLine(ContainsDuplicates(new int[] { 1, 2, 3, 4 }));  // False
+            case "4":
+                Console.WriteLine("Choose list type:");
+                Console.WriteLine("  1. List<int>");
+                Console.WriteLine("  2. List<string>");
+                Console.WriteLine("  3. List<bool>");
+                Console.Write("Your choice: ");
+                string listType = Console.ReadLine();
+
+                Console.Write("Enter elements separated by spaces: ");
+                string[] elements = Console.ReadLine().Split(' ');
+
+                if (listType == "1")
+                {
+                    var intList = elements.Select(int.Parse).ToList();
+                    ProcessList(intList);
+                }
+                else if (listType == "2")
+                {
+                    var stringList = elements.ToList();
+                    ProcessList(stringList);
+                }
+                else if (listType == "3")
+                {
+                    var boolList = elements.Select(e => e.ToLower() == "true").ToList();
+                    ProcessList(boolList);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid list type.");
+                }
+                break;
+
+            case "5":
+                Console.Write("Enter a number: ");
+                int number = int.Parse(Console.ReadLine());
+                PrintDigitsRecursive(number);
+                Console.WriteLine();
+                break;
+
+            case "6":
+                Console.Write("Enter numbers separated by spaces: ");
+                int[] nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                Console.WriteLine($"Contains duplicates: {ContainsDuplicates(nums)}");
+                break;
+
+            case "0":
+                running = false;
+                break;
+
+            default:
+                Console.WriteLine("Invalid choice, try again.");
+                break;
+        }
     }
+}
 }
